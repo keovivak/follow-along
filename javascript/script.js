@@ -54,8 +54,6 @@ function startQuiz() {
 }
 
 function initializeQuiz() {
-    // console.log(quizQuestionsSet[0].choices.forEach(iterateChoices));
-    // document.getElementById("quizQuestionChoices").innerHTML = choiceOutput;
     document.getElementById("quizStart").innerHTML = "Next";
     document.getElementById("quizStart").id = "quizNext";
     console.log(quizQuestions[0].choices);
@@ -63,15 +61,15 @@ function initializeQuiz() {
 }
 
 function iterateChoices(questionChoices) {
-    document.getElementById("quizQuestionChoice1").innerHTML = questionChoices[0];
-    document.getElementById("quizQuestionChoice2").innerHTML = questionChoices[1];
-    document.getElementById("quizQuestionChoice3").innerHTML = questionChoices[2];
-    document.getElementById("quizQuestionChoice4").innerHTML = questionChoices[3];
+    for (let questionChoice=0; questionChoice<questionChoices.length; questionChoice++) {
+        setChoices(questionChoice, questionChoices[questionChoice]);
+    }
 }
 
-function setChoices() {
-    console.log("SET QUESTION CHOICES");
-    // console.log(quizQuestions.forEach());
+function setChoices(questionChoice, questionValue) {
+    quizQuestionChoice = "quizQuestionChoice" + (questionChoice + 1);
+    console.log(quizQuestionChoice);
+    document.getElementById(quizQuestionChoice).innerHTML = questionValue;
 }
 
 function nextQustion() {
