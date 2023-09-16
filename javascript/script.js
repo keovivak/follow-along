@@ -48,17 +48,9 @@ function startQuiz() {
         quizState = 0;
         console.log("quizState = " + quizState);
         initializeQuiz();
-        // console.log("Number of questions = " + quizQuestions.length);
-        // console.log("First question is " + quizQuestions[0].question);
     } else if (quizState == 0) {
         console.log("NEXT!!");
     }
-    
-    // questions.forEach(question => {
-    //     console.log(question.value);
-    // });
-    // questionLoop();
-    
 }
 
 function initializeQuiz() {
@@ -66,20 +58,15 @@ function initializeQuiz() {
     // document.getElementById("quizQuestionChoices").innerHTML = choiceOutput;
     document.getElementById("quizStart").innerHTML = "Next";
     document.getElementById("quizStart").id = "quizNext";
-    iterateChoices();
-    // document.getElementById("quizBox").innerHTML = quizQuestions[0].question;
-    // input.map(elem => Object.fromEntries(elem))
-    // // document.getElementById("quizQuestionChoices").innerHTML = "choices"
-    // setChoices();
-    // document.getElementById("quizNext").onclick = "nextQustion()"
+    console.log(quizQuestions[0].choices);
+    iterateChoices(quizQuestions[0].choices);
 }
 
-function iterateChoices() {
-    for (i=1; i<4; i++) {
-
-    }
-    // choiceOutput += choice + "<br>";
-    // choiceOutput = "<input type=\"radio\" id="c1" name=" + choice + " value=" + HTML+ "></input>";
+function iterateChoices(questionChoices) {
+    document.getElementById("quizQuestionChoice1").innerHTML = questionChoices[0];
+    document.getElementById("quizQuestionChoice2").innerHTML = questionChoices[1];
+    document.getElementById("quizQuestionChoice3").innerHTML = questionChoices[2];
+    document.getElementById("quizQuestionChoice4").innerHTML = questionChoices[3];
 }
 
 function setChoices() {
