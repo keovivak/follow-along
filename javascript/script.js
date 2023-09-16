@@ -50,12 +50,14 @@ function startQuiz() {
         initializeQuiz();
     } else if (quizState == 0) {
         console.log("NEXT!!");
+
     }
 }
 
 function initializeQuiz() {
     document.getElementById("quizStart").innerHTML = "Next";
     document.getElementById("quizStart").id = "quizNext";
+    document.getElementById("quizBox").innerHTML = quizQuestions[0].question;
     console.log(quizQuestions[0].choices);
     iterateChoices(quizQuestions[0].choices);
 }
@@ -68,7 +70,6 @@ function iterateChoices(questionChoices) {
 
 function setChoices(questionChoice, questionValue) {
     quizQuestionChoice = "quizQuestionChoice" + (questionChoice + 1);
-    console.log(quizQuestionChoice);
     document.getElementById(quizQuestionChoice).innerHTML = questionValue;
 }
 
