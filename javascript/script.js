@@ -3,7 +3,7 @@ var countdownTime = null;
 
 const quizQuestions = [
     {
-        "question": "text",
+        "question": "q1",
         "choice1": "1",
         "choice2": "2",
         "choice3": "3",
@@ -11,7 +11,7 @@ const quizQuestions = [
         "correctChoice": 2
     },
     {
-        "question": "text",
+        "question": "q2",
         "choice1": "1",
         "choice2": "2",
         "choice3": "3",
@@ -19,7 +19,7 @@ const quizQuestions = [
         "correctChoice": 2
     },
     {
-        "question": "text",
+        "question": "q3",
         "choice1": "1",
         "choice2": "2",
         "choice3": "3",
@@ -27,7 +27,7 @@ const quizQuestions = [
         "correctChoice": 2
     },
     {
-        "question": "text",
+        "question": "q4",
         "choice1": "1",
         "choice2": "2",
         "choice3": "3",
@@ -35,7 +35,7 @@ const quizQuestions = [
         "correctChoice": 2
     },
     {
-        "question": "text",
+        "question": "q5",
         "choice1": "1",
         "choice2": "2",
         "choice3": "3",
