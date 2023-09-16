@@ -1,56 +1,78 @@
-var sec = 60;
-var time = null
+var quizTime = 60;
+var countdownTime = null;
+
+const quizQuestions = [
+    {
+        "question": "text",
+        "choice1": "1",
+        "choice2": "2",
+        "choice3": "3",
+        "choice4": "4",
+        "correctChoice": 2
+    },
+    {
+        "question": "text",
+        "choice1": "1",
+        "choice2": "2",
+        "choice3": "3",
+        "choice4": "4",
+        "correctChoice": 2
+    },
+    {
+        "question": "text",
+        "choice1": "1",
+        "choice2": "2",
+        "choice3": "3",
+        "choice4": "4",
+        "correctChoice": 2
+    },
+    {
+        "question": "text",
+        "choice1": "1",
+        "choice2": "2",
+        "choice3": "3",
+        "choice4": "4",
+        "correctChoice": 2
+    },
+    {
+        "question": "text",
+        "choice1": "1",
+        "choice2": "2",
+        "choice3": "3",
+        "choice4": "4",
+        "correctChoice": 2
+    }
+];
+
 
 function myTimer() {
-    document.getElementById('timer').innerHTML = sec;
-    sec--;
-    if (sec == -1) {
-        clearInterval(time);
+    document.getElementById('timer').innerHTML = quizTime;
+    quizTime--;
+    if (quizTime == -1) {
+        clearInterval(countdownTime);
         alert("Time out!! :(");
     }
 }
 
 function startQuiz() {
+    var numberOfQuestions = 5
     document.getElementById("home").innerHTML = "Begin quiz";
     time = setInterval(myTimer, 1000);
+    console.log("Number of questions = " + quizQuestions.length);
+    console.log("First question is " + quizQuestions[0].question);
+    // questions.forEach(question => {
+    //     console.log(question.value);
+    // });
 }
 
-const question1 = {
-    question: "text",
-    choice1: "1",
-    choice2: "2",
-    choice3: "3",
-    choice4: "4"
-};
 
-const question2 = {
-    question: "text",
-    choice1: "1",
-    choice2: "2",
-    choice3: "3",
-    choice4: "4"
-};
 
-const question3 = {
-    question: "text",
-    choice1: "1",
-    choice2: "2",
-    choice3: "3",
-    choice4: "4"
-};
+// const numbers = [45, 4, 9, 16, 25];
 
-const question4 = {
-    question: "text",
-    choice1: "1",
-    choice2: "2",
-    choice3: "3",
-    choice4: "4"
-};
+// let txt = "";
+// numbers.forEach(myFunction);
+// document.getElementById("demo").innerHTML = txt;
 
-const question5 = {
-    question: "text",
-    choice1: "1",
-    choice2: "2",
-    choice3: "3",
-    choice4: "4"
-};
+// function myFunction(value, index, array) {
+//   txt += value + "<br>"; 
+// }
