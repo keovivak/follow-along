@@ -1,5 +1,6 @@
-var quizTime = 60;
-var countdownTime = null;
+var quizTime = 10;
+var countdownTime = null
+var userCorrectAnswers = 0;
 
 const quizQuestions = [
     {
@@ -55,14 +56,27 @@ function myTimer() {
 }
 
 function startQuiz() {
-    var numberOfQuestions = 5
-    document.getElementById("home").innerHTML = "Begin quiz";
-    time = setInterval(myTimer, 1000);
+    initializeQuiz();
+    countdownTime = setInterval(myTimer, 1000);
     console.log("Number of questions = " + quizQuestions.length);
     console.log("First question is " + quizQuestions[0].question);
     // questions.forEach(question => {
     //     console.log(question.value);
     // });
+    questionLoop();
+}
+
+function initializeQuiz() {
+    document.getElementById("quizBox").innerHTML = quizQuestions[0].question;
+    document.getElementById("quizQuestionChoices").innerHTML = "choices"
+    document.getElementById("quizStart").innerHTML = "Next";
+    document.getElementById("quizStart").id = "quizNext";
+}
+
+function questionLoop() {
+    let questionDisplay = "";
+    document.getElementById("home").innerHTML = questionDisplay;
+    questionDisplay += quizQuestions[0].question;
 }
 
 

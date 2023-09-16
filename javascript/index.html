@@ -6,7 +6,7 @@
   margin: auto;
   text-align: center;
   width: 50%;
-  border: 3px solid green;
+  /* border: 3px solid green; */
   padding: 10px;
 }
 
@@ -29,13 +29,12 @@
 </div>
 </head>
 <body>
-<div>
-
+<div class="center">
+    <p id="quizBox">Quiz</p>
+    <p id="quizQuestionChoices"></p>
 </div>
-<div class="center" id="home">
-    <p>Quiz</p>
-    <p>summary</p>
-    <button type="button" onclick="startQuiz()">Start</button>
+<div class="center">
+    <button type="button" id="quizStart" onclick="startQuiz()">Start</button>
 </div>
 
 <script src="script.js"></script>
