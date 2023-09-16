@@ -1,49 +1,35 @@
 var quizTime = 10;
 var countdownTime = null
 var userCorrectAnswers = 0;
+var quizState = -1
 
-const quizQuestions = [
+let quizQuestions = [
     {
         "question": "q1",
-        "choice1": "1",
-        "choice2": "2",
-        "choice3": "3",
-        "choice4": "4",
-        "correctChoice": 2
+        "correctChoice": 1,
+        "choices" : ["c1", "c2", "c3", "c4"]
     },
     {
         "question": "q2",
-        "choice1": "1",
-        "choice2": "2",
-        "choice3": "3",
-        "choice4": "4",
-        "correctChoice": 2
+        "correctChoice": 2,
+        "choices" : ["c1", "c2", "c3", "c4"]
     },
     {
         "question": "q3",
-        "choice1": "1",
-        "choice2": "2",
-        "choice3": "3",
-        "choice4": "4",
-        "correctChoice": 2
+        "correctChoice": 3,
+        "choices" : ["c1", "c2", "c3", "c4"]
     },
     {
         "question": "q4",
-        "choice1": "1",
-        "choice2": "2",
-        "choice3": "3",
-        "choice4": "4",
-        "correctChoice": 2
+        "correctChoice": 4,
+        "choices" : ["c1", "c2", "c3", "c4"]
     },
     {
         "question": "q5",
-        "choice1": "1",
-        "choice2": "2",
-        "choice3": "3",
-        "choice4": "4",
-        "correctChoice": 2
+        "correctChoice": 1,
+        "choices" : ["c1", "c2", "c3", "c4"]
     }
-];
+]
 
 
 function myTimer() {
@@ -56,21 +42,53 @@ function myTimer() {
 }
 
 function startQuiz() {
-    initializeQuiz();
-    countdownTime = setInterval(myTimer, 1000);
-    console.log("Number of questions = " + quizQuestions.length);
-    console.log("First question is " + quizQuestions[0].question);
+    if (quizState == -1) {
+        countdownTime = setInterval(myTimer, 1000);
+        console.log("quizState = " + quizState);
+        quizState = 0;
+        console.log("quizState = " + quizState);
+        initializeQuiz();
+        // console.log("Number of questions = " + quizQuestions.length);
+        // console.log("First question is " + quizQuestions[0].question);
+    } else if (quizState == 0) {
+        console.log("NEXT!!");
+    }
+    
     // questions.forEach(question => {
     //     console.log(question.value);
     // });
-    questionLoop();
+    // questionLoop();
+    
 }
 
 function initializeQuiz() {
-    document.getElementById("quizBox").innerHTML = quizQuestions[0].question;
-    document.getElementById("quizQuestionChoices").innerHTML = "choices"
+    // console.log(quizQuestionsSet[0].choices.forEach(iterateChoices));
+    // document.getElementById("quizQuestionChoices").innerHTML = choiceOutput;
     document.getElementById("quizStart").innerHTML = "Next";
     document.getElementById("quizStart").id = "quizNext";
+    iterateChoices();
+    // document.getElementById("quizBox").innerHTML = quizQuestions[0].question;
+    // input.map(elem => Object.fromEntries(elem))
+    // // document.getElementById("quizQuestionChoices").innerHTML = "choices"
+    // setChoices();
+    // document.getElementById("quizNext").onclick = "nextQustion()"
+}
+
+function iterateChoices() {
+    for (i=1; i<4; i++) {
+
+    }
+    // choiceOutput += choice + "<br>";
+    // choiceOutput = "<input type=\"radio\" id="c1" name=" + choice + " value=" + HTML+ "></input>";
+}
+
+function setChoices() {
+    console.log("SET QUESTION CHOICES");
+    // console.log(quizQuestions.forEach());
+}
+
+function nextQustion() {
+    console.log("NEXT QUESTION!!");
 }
 
 function questionLoop() {
@@ -90,3 +108,10 @@ function questionLoop() {
 // function myFunction(value, index, array) {
 //   txt += value + "<br>"; 
 // }
+
+// let input = [
+//     [['firstName', 'Joe'], ['lastName', 'Blow'], ['age', 42], ['role', 'clerk']],
+//     [['firstName', 'Mary'], ['lastName', 'Jenkins'], ['age', 36], ['role', 'manager']]
+// ]
+
+// console.log(input.map(elem => Object.fromEntries(elem)))
