@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<!-- Boilerplate for html - Taken from W3 schools lessons -->
+<html>
+<style>
+.center {
+  margin: auto;
+  text-align: center;
+  width: 50%;
+  border: 3px solid green;
+  padding: 10px;
+}
+
+.flex-container {
+    display: flex;
+    background-color: DodgerBlue;
+}
+
+.flex-container > div {
+    background-color: #f1f1f1;
+    margin: 10px;
+    padding: 20px;
+    font-size: 30px;
+}
+</style>
+<head>
+<div class="flex-container">
+    <div>view highscores</div>
+    <div>Time : <span id="timer"></span></div>
+</div>
+</head>
+<body>
+<div>
+
+</div>
+<div class="center" id="home">
+    <p>Quiz</p>
+    <p>summary</p>
+    <button type="button" onclick="startQuiz()">Start</button>
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
