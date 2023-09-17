@@ -1,61 +1,64 @@
-var quizTime = 10;
+const timelimit = 60;
+var quizTime = timelimit;
 var countdownTime = null
 var userCorrectAnswers = 0;
 var currentQuestion = -1;
+var correctAnswer = 1;
 var leaderboard = []
 
 const quizQuestions = [
     {
         "question": "q1",
-        "correctChoice": 1,
+        "correctChoice": 0,
         "choices" : [
-            "c1",
-            "c2",
-            "c3",
-            "c4"
+            "<input type=\"radio\" id=\"choice1\" name=\"choices\" value=\"C1\"><label for=\"choice1\">C1</label><br>",
+            "<input type=\"radio\" id=\"choice2\" name=\"choices\" value=\"C2\"><label for=\"choice1\">C2</label><br>",
+            "<input type=\"radio\" id=\"choice3\" name=\"choices\" value=\"C3\"><label for=\"choice1\">C3</label><br>",
+            "<input type=\"radio\" id=\"choice4\" name=\"choices\" value=\"C4\"><label for=\"choice1\">C4</label><br>"
         ]
     },
     {
         "question": "q2",
-        "correctChoice": 2,
+        "correctChoice": 1,
         "choices" : [
-            "c11", 
-            "c2",
-            "c3","c4"
+            "<input type=\"radio\" id=\"choice1\" name=\"choices\" value=\"C1\"><label for=\"choice1\">C11</label><br>",
+            "<input type=\"radio\" id=\"choice2\" name=\"choices\" value=\"C2\"><label for=\"choice1\">C2</label><br>",
+            "<input type=\"radio\" id=\"choice3\" name=\"choices\" value=\"C3\"><label for=\"choice1\">C3</label><br>",
+            "<input type=\"radio\" id=\"choice4\" name=\"choices\" value=\"C4\"><label for=\"choice1\">C4</label><br>"
         ]
     },
     {
         "question": "q3",
-        "correctChoice": 3,
+        "correctChoice": 2,
         "choices" : [
-            "c111",
-            "c2",
-            "c3",
-            "c4"
+            "<input type=\"radio\" id=\"choice1\" name=\"choices\" value=\"C1\"><label for=\"choice1\">C111</label><br>",
+            "<input type=\"radio\" id=\"choice2\" name=\"choices\" value=\"C2\"><label for=\"choice1\">C2</label><br>",
+            "<input type=\"radio\" id=\"choice3\" name=\"choices\" value=\"C3\"><label for=\"choice1\">C3</label><br>",
+            "<input type=\"radio\" id=\"choice4\" name=\"choices\" value=\"C4\"><label for=\"choice1\">C4</label><br>"
         ]
     },
     {
         "question": "q4",
-        "correctChoice": 4,
+        "correctChoice": 3,
         "choices" : [
-            "c1111",
-            "c2",
-            "c3",
-            "c4"
+            "<input type=\"radio\" id=\"choice1\" name=\"choices\" value=\"C1\"><label for=\"choice1\">C1111</label><br>",
+            "<input type=\"radio\" id=\"choice2\" name=\"choices\" value=\"C2\"><label for=\"choice1\">C2</label><br>",
+            "<input type=\"radio\" id=\"choice3\" name=\"choices\" value=\"C3\"><label for=\"choice1\">C3</label><br>",
+            "<input type=\"radio\" id=\"choice4\" name=\"choices\" value=\"C4\"><label for=\"choice1\">C4</label><br>"
         ]
     },
     {
         "question": "q5",
-        "correctChoice": 1,
+        "correctChoice": 0,
         "choices" : [
-            "c11111",
-            "c2",
-            "c3",
-            "c4"
+            "<input type=\"radio\" id=\"choice1\" name=\"choices\" value=\"C1\"><label for=\"choice1\">C1111</label><br>",
+            "<input type=\"radio\" id=\"choice2\" name=\"choices\" value=\"C2\"><label for=\"choice1\">C2</label><br>",
+            "<input type=\"radio\" id=\"choice3\" name=\"choices\" value=\"C3\"><label for=\"choice1\">C3</label><br>",
+            "<input type=\"radio\" id=\"choice4\" name=\"choices\" value=\"C4\"><label for=\"choice1\">C4</label><br>"
         ]
     },
     {
-        "question": "Final Score: " + userCorrectAnswers,
+        "question": "",
         "choices" : [
             "<input id=\"userInitials\">",
             "<button type=\"button\" onclick=\"saveScore()\">Submit</button>",
@@ -76,7 +79,12 @@ const quizQuestions = [
 
 
 function myTimer() {
-    document.getElementById('timer').innerHTML = quizTime;
+    if (quizTime > 0) {
+        document.getElementById('timer').innerHTML = quizTime;
+    } else {
+        quizTime = 0;
+        document.getElementById('timer').innerHTML = quizTime;
+    }
     quizTime--;
     if (quizTime == -1) {
         clearInterval(countdownTime);
@@ -97,14 +105,19 @@ function startQuiz() {
         initializeQuiz();
     } else if (currentQuestion < (quizQuestions.length - 2) && quizTime > 0) {
         console.log("NEXT!!");
+        captureAnswer();
         nextQuestion();
     } else {
+        if (quizTime > 0) {
+            captureAnswer();
+        }
         console.log("quiz over");
         clearInterval(countdownTime);
         if (currentQuestion < (quizQuestions.length - 2)) {
             currentQuestion = 5;
         }
         document.getElementById("quizNext").innerHTML = ""
+        quizQuestions[currentQuestion].question = "Final Score: " + userCorrectAnswers;
         nextQuestion();
     }
 
@@ -134,6 +147,28 @@ function setChoices(questionChoice, questionValue) {
     document.getElementById(quizQuestionChoice).innerHTML = questionValue;
 }
 
+function captureAnswer() {
+    var choiceSelection = "";
+    var userChoice;
+    for (let questionChoice=0; questionChoice<4; questionChoice++) {
+        choiceSelection = "choice" + (questionChoice + 1);
+        console.log(choiceSelection);
+        console.log(document.getElementById(choiceSelection).checked);
+        if (document.getElementById(choiceSelection).checked) {
+            userChoice = questionChoice;
+        }
+    }
+    console.log("USER SELECTED: " + userChoice);
+    console.log("CORRECT CHOICE: " + quizQuestions[currentQuestion].correctChoice);
+    if (quizQuestions[currentQuestion-1].correctChoice == userChoice) {
+        console.log("CORRECT!");
+        userCorrectAnswers += 1;
+    } else {
+        console.log("wrong");
+        quizTime -= currentQuestion * 3;
+    }
+}
+
 function nextQuestion() {
     console.log("NEXT QUESTION!!");
     getQuestion();
@@ -157,7 +192,8 @@ function viewLeaderboard() {
 
 function restartQuiz() {
     currentQuestion = -1;
-    quizTime = 10;
+    userCorrectAnswers = 0;
+    quizTime = timelimit;
 }
 
 function clearLeaderboard() {
