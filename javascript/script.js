@@ -1,33 +1,76 @@
 var quizTime = 10;
 var countdownTime = null
 var userCorrectAnswers = 0;
-var currentQuestion = -1
+var currentQuestion = -1;
+var leaderboard = []
 
-let quizQuestions = [
+const quizQuestions = [
     {
         "question": "q1",
         "correctChoice": 1,
-        "choices" : ["c1", "c2", "c3", "c4"]
+        "choices" : [
+            "c1",
+            "c2",
+            "c3",
+            "c4"
+        ]
     },
     {
         "question": "q2",
         "correctChoice": 2,
-        "choices" : ["c11", "c2", "c3", "c4"]
+        "choices" : [
+            "c11", 
+            "c2",
+            "c3","c4"
+        ]
     },
     {
         "question": "q3",
         "correctChoice": 3,
-        "choices" : ["c111", "c2", "c3", "c4"]
+        "choices" : [
+            "c111",
+            "c2",
+            "c3",
+            "c4"
+        ]
     },
     {
         "question": "q4",
         "correctChoice": 4,
-        "choices" : ["c1111", "c2", "c3", "c4"]
+        "choices" : [
+            "c1111",
+            "c2",
+            "c3",
+            "c4"
+        ]
     },
     {
         "question": "q5",
         "correctChoice": 1,
-        "choices" : ["c11111", "c2", "c3", "c4"]
+        "choices" : [
+            "c11111",
+            "c2",
+            "c3",
+            "c4"
+        ]
+    },
+    {
+        "question": "Final Score: " + userCorrectAnswers,
+        "choices" : [
+            "<input id=\"userInitials\">",
+            "<button type=\"button\" onclick=\"saveScore()\">Submit</button>",
+            "",
+            ""
+        ]
+    },
+    {
+        "question": "Highscores",
+        "choices" : [
+            leaderboard,
+            "<button type=\"button\" onclick=\"clearLeaderboard()\">Clear Leaderboard</button>",
+            "",
+            ""
+        ]
     }
 ]
 
@@ -42,6 +85,9 @@ function myTimer() {
 }
 
 function startQuiz() {
+    if (currentQuestion == 6) {
+        restartQuiz();
+    }
     if (currentQuestion == -1) {
         countdownTime = setInterval(myTimer, 1000);
         console.log("currentQuestion = " + currentQuestion);
@@ -49,11 +95,17 @@ function startQuiz() {
         console.log("currentQuestion = " + currentQuestion);
         console.log(quizQuestions.length);
         initializeQuiz();
-    } else if (currentQuestion < quizQuestions.length && quizTime > 0) {
+    } else if (currentQuestion < (quizQuestions.length - 2) && quizTime > 0) {
         console.log("NEXT!!");
-        nextQustion();
+        nextQuestion();
     } else {
         console.log("quiz over");
+        clearInterval(countdownTime);
+        if (currentQuestion < (quizQuestions.length - 2)) {
+            currentQuestion = 5;
+        }
+        document.getElementById("quizNext").innerHTML = ""
+        nextQuestion();
     }
 
     currentQuestion += 1;
@@ -82,26 +134,37 @@ function setChoices(questionChoice, questionValue) {
     document.getElementById(quizQuestionChoice).innerHTML = questionValue;
 }
 
-function nextQustion() {
+function nextQuestion() {
     console.log("NEXT QUESTION!!");
     getQuestion();
     iterateChoices(quizQuestions[currentQuestion].choices);
 }
 
+function saveScore() {
+    let initials = document.getElementById("userInitials").value;
+    let initialsAndScore = initials + " - " + userCorrectAnswers + "<br>";
+    leaderboard.push(initialsAndScore);
+    console.log(currentQuestion);
+    console.log(leaderboard.toString());
+    nextQuestion();
+    document.getElementById("quizNext").innerHTML = "Start Over";
+    document.getElementById("quizNext").id = "quizStart";
+}
 
-// const numbers = [45, 4, 9, 16, 25];
+function viewLeaderboard() {
+    
+}
 
-// let txt = "";
-// numbers.forEach(myFunction);
-// document.getElementById("demo").innerHTML = txt;
+function restartQuiz() {
+    currentQuestion = -1;
+    quizTime = 10;
+}
 
-// function myFunction(value, index, array) {
-//   txt += value + "<br>"; 
-// }
-
-// let input = [
-//     [['firstName', 'Joe'], ['lastName', 'Blow'], ['age', 42], ['role', 'clerk']],
-//     [['firstName', 'Mary'], ['lastName', 'Jenkins'], ['age', 36], ['role', 'manager']]
-// ]
-
-// console.log(input.map(elem => Object.fromEntries(elem)))
+function clearLeaderboard() {
+    console.log("clear");
+    leaderboard = [];
+    quizQuestions[currentQuestion].choices[0] = "";
+    nextQuestion();
+    quizQuestions[currentQuestion].choices[0] = leaderboard;
+    restartQuiz();
+}
