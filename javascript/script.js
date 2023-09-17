@@ -152,7 +152,7 @@ function saveScore() {
 }
 
 function viewLeaderboard() {
-    
+    console.log("view leaderboard");
 }
 
 function restartQuiz() {
