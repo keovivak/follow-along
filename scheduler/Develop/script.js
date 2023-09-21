@@ -1,7 +1,8 @@
-const anteMeridiem = AM;
-const postMeridiem = PM;
+const anteMeridiem = "AM";
+const postMeridiem = "PM";
 const noonTime = 12;
-const scheduleTime = 8;
+const startTime = 1;
+const scheduleTime = 24;
 
 // Wrap all code that interacts with the DOM in a call to jQuery to ensure that
 // the code isn't run until the browser has finished rendering all the elements
@@ -35,31 +36,40 @@ $(function () {
     // document.getElementById("btn").addEventListener("click", func);
     var now = dayjs();
     console.log(now);
-    document.getElementById("timeSlot").innerHTML = getTimeBlock(1, "future", "AM");
+    now = dayjs().hour();
+    console.log(now);
+    // document.getElementById("timeSlot").innerHTML = getTimeBlock(1, "AM");
+    generateSchedule();
 });
 
-function generateScheudle() {
+function generateSchedule() {
     console.log("generate a days work of schedules");
-    for (var i = 1; i <= scheduleTime; i++) {
-        if (i > noonTime) {
-            console.log(anteMeridiem);
-        }  
+    
+    var timeSlotHTML = "";
 
+    for (var timeHour = startTime; timeHour < (startTime + scheduleTime); timeHour++) {
+        if (timeHour < noonTime) {
+            console.log(timeHour + anteMeridiem);
+            timeSlotHTML += getTimeBlock(timeHour, anteMeridiem);
+            timeSlotHTML += "\n";
+        } else if (timeHour >= noonTime) {
+            console.log(timeHour + postMeridiem + " | " + convert12HourTime(timeHour) + postMeridiem);
+            timeSlotHTML += getTimeBlock(timeHour, postMeridiem);
+            timeSlotHTML += "\n";
+        }
     }
 
+    document.getElementById("timeSlot").innerHTML = timeSlotHTML;
 }
 
-function func() {
-    console.log("jquery dayjs test");
-}
-
-function getTimeBlock(intHour, timeTense, meridiem) {
-    var hourSlot = "hour-" + intHour;
-    var timeState = "row time-block " + timeTense;
+function getTimeBlock(timeHour, meridiem) {
+    var hourSlot = "hour-" + timeHour;
+    var getTense = checkTimeTense(timeHour);
+    var timeState = "row time-block " + getTense;
     var divHTML = ""
-
+    
     divHTML += "<div id=\"" + hourSlot + "\" class=\"" + timeState + "\">" + "\n";
-    divHTML += "<div class=\"col-2 col-md-1 hour text-center py-3\">" + intHour + meridiem + "</div>" + "\n";
+    divHTML += "<div class=\"col-2 col-md-1 hour text-center py-3\">" + timeHour + meridiem + "</div>" + "\n";
     divHTML += "<textarea class=\"col-8 col-md-10 description\" rows=\"3\"> </textarea>" + "\n";
     divHTML += "<button class=\"btn saveBtn col-2 col-md-1\" aria-label=\"save\">" + "\n";
     divHTML += "<i class=\"fas fa-save\" aria-hidden=\"true\"></i>" + "\n";
@@ -67,4 +77,30 @@ function getTimeBlock(intHour, timeTense, meridiem) {
     divHTML += "</div>" + "\n";
 
     return(divHTML);
+}
+
+function checkTimeTense(timeHour) {
+    var currentTime = dayjs().hour();
+    var timeTense = "";
+
+    if (timeHour < currentTime) {
+        timeTense = "past";
+    } else if (timeHour == currentTime) {
+        timeTense = "present";
+    } else {
+        timeTense = "future";
+    }
+
+    return(timeTense);
+}
+
+function convert12HourTime(timeValue) {
+    var timeHour = 0;
+    if (timeValue == noonTime) {
+        timeHour = noonTime;
+    } else if (timeValue > noonTime) {
+        timeHour = timeValue - 12;
+    }
+
+    return(timeHour);
 }
