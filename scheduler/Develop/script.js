@@ -1,3 +1,8 @@
+const anteMeridiem = AM;
+const postMeridiem = PM;
+const noonTime = 12;
+const scheduleTime = 8;
+
 // Wrap all code that interacts with the DOM in a call to jQuery to ensure that
 // the code isn't run until the browser has finished rendering all the elements
 // in the html.
@@ -30,12 +35,36 @@ $(function () {
     // document.getElementById("btn").addEventListener("click", func);
     var now = dayjs();
     console.log(now);
+    document.getElementById("timeSlot").innerHTML = getTimeBlock(1, "future", "AM");
 });
 
 function generateScheudle() {
+    console.log("generate a days work of schedules");
+    for (var i = 1; i <= scheduleTime; i++) {
+        if (i > noonTime) {
+            console.log(anteMeridiem);
+        }  
+
+    }
 
 }
 
 function func() {
     console.log("jquery dayjs test");
+}
+
+function getTimeBlock(intHour, timeTense, meridiem) {
+    var hourSlot = "hour-" + intHour;
+    var timeState = "row time-block " + timeTense;
+    var divHTML = ""
+
+    divHTML += "<div id=\"" + hourSlot + "\" class=\"" + timeState + "\">" + "\n";
+    divHTML += "<div class=\"col-2 col-md-1 hour text-center py-3\">" + intHour + meridiem + "</div>" + "\n";
+    divHTML += "<textarea class=\"col-8 col-md-10 description\" rows=\"3\"> </textarea>" + "\n";
+    divHTML += "<button class=\"btn saveBtn col-2 col-md-1\" aria-label=\"save\">" + "\n";
+    divHTML += "<i class=\"fas fa-save\" aria-hidden=\"true\"></i>" + "\n";
+    divHTML += "</button>" + "\n";
+    divHTML += "</div>" + "\n";
+
+    return(divHTML);
 }
