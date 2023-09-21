@@ -50,11 +50,11 @@ function generateSchedule() {
     for (var timeHour = startTime; timeHour < (startTime + scheduleTime); timeHour++) {
         if (timeHour < noonTime) {
             console.log(timeHour + anteMeridiem);
-            timeSlotHTML += getTimeBlock(timeHour, anteMeridiem);
+            timeSlotHTML += getTimeBlock(timeHour,timeHour, anteMeridiem);
             timeSlotHTML += "\n";
         } else if (timeHour >= noonTime) {
             console.log(timeHour + postMeridiem + " | " + convert12HourTime(timeHour) + postMeridiem);
-            timeSlotHTML += getTimeBlock(timeHour, postMeridiem);
+            timeSlotHTML += getTimeBlock(timeHour, convert12HourTime(timeHour), postMeridiem);
             timeSlotHTML += "\n";
         }
     }
@@ -62,14 +62,14 @@ function generateSchedule() {
     document.getElementById("timeSlot").innerHTML = timeSlotHTML;
 }
 
-function getTimeBlock(timeHour, meridiem) {
+function getTimeBlock(timeHour, timeView, meridiem) {
     var hourSlot = "hour-" + timeHour;
     var getTense = checkTimeTense(timeHour);
     var timeState = "row time-block " + getTense;
     var divHTML = ""
     
     divHTML += "<div id=\"" + hourSlot + "\" class=\"" + timeState + "\">" + "\n";
-    divHTML += "<div class=\"col-2 col-md-1 hour text-center py-3\">" + timeHour + meridiem + "</div>" + "\n";
+    divHTML += "<div class=\"col-2 col-md-1 hour text-center py-3\">" + timeView + meridiem + "</div>" + "\n";
     divHTML += "<textarea class=\"col-8 col-md-10 description\" rows=\"3\"> </textarea>" + "\n";
     divHTML += "<button class=\"btn saveBtn col-2 col-md-1\" aria-label=\"save\">" + "\n";
     divHTML += "<i class=\"fas fa-save\" aria-hidden=\"true\"></i>" + "\n";
@@ -96,6 +96,7 @@ function checkTimeTense(timeHour) {
 
 function convert12HourTime(timeValue) {
     var timeHour = 0;
+    
     if (timeValue == noonTime) {
         timeHour = noonTime;
     } else if (timeValue > noonTime) {
