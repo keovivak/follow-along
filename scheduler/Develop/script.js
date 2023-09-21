@@ -14,7 +14,7 @@ $(function () {
     // function? How can DOM traversal be used to get the "hour-x" id of the
     // time-block containing the button that was clicked? How might the id be
     // useful when saving the description in local storage?
-
+    generateSchedule();
 
 
 
@@ -39,7 +39,7 @@ $(function () {
     now = dayjs().hour();
     console.log(now);
     // document.getElementById("timeSlot").innerHTML = getTimeBlock(1, "AM");
-    generateSchedule();
+    
 });
 
 function generateSchedule() {
@@ -48,6 +48,7 @@ function generateSchedule() {
     var timeSlotHTML = "";
 
     for (var timeHour = startTime; timeHour < (startTime + scheduleTime); timeHour++) {
+    // for (var timeHour = 9; timeHour <= (startTime + 8); timeHour++) {
         if (timeHour < noonTime) {
             console.log(timeHour + anteMeridiem);
             timeSlotHTML += getTimeBlock(timeHour,timeHour, anteMeridiem);
@@ -71,7 +72,7 @@ function getTimeBlock(timeHour, timeView, meridiem) {
     divHTML += "<div id=\"" + hourSlot + "\" class=\"" + timeState + "\">" + "\n";
     divHTML += "<div class=\"col-2 col-md-1 hour text-center py-3\">" + timeView + meridiem + "</div>" + "\n";
     divHTML += "<textarea class=\"col-8 col-md-10 description\" rows=\"3\"> </textarea>" + "\n";
-    divHTML += "<button class=\"btn saveBtn col-2 col-md-1\" aria-label=\"save\">" + "\n";
+    divHTML += "<button id=\"btn-" + timeHour + "\" class=\"btn saveBtn col-2 col-md-1\" aria-label=\"save\">" + "\n";
     divHTML += "<i class=\"fas fa-save\" aria-hidden=\"true\"></i>" + "\n";
     divHTML += "</button>" + "\n";
     divHTML += "</div>" + "\n";
