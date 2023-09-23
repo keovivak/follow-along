@@ -17,14 +17,16 @@ const monthOfTheYear = [
 // the code isn't run until the browser has finished rendering all the elements
 // in the html.
 $(function () {
+    // Will generate all time blocks with correct tense
+    // no functionatilly till after button listener
     generateSchedule();
+    
     // TODO: Add a listener for click events on the save button. This code should
     // use the id in the containing time-block as a key to save the user input in
     // local storage. HINT: What does `this` reference in the click listener
     // function? How can DOM traversal be used to get the "hour-x" id of the
     // time-block containing the button that was clicked? How might the id be
     // useful when saving the description in local storage?
-    
     buttonListeners();
 
 
@@ -35,13 +37,15 @@ $(function () {
     // past, present, and future classes? How can Day.js be used to get the
     // current hour in 24-hour time?
     //
+    // Not sure - applied when generating the schedule - no need to put extra steps
+    // when iniitally creating it - function will check current time to apply the
+    // correct tense
 
 
     // TODO: Add code to get any user input that was saved in localStorage and set
     // the values of the corresponding textarea elements. HINT: How can the id
     // attribute of each time-block be used to do this?
     //
-
     refreshSchedule();
 
 
@@ -49,7 +53,10 @@ $(function () {
     setToday();
 });
 
-
+/**
+ * This will generate all the timeblocks from start time + 8 hours in a work day
+ * setting the correct AM or PM
+ */
 function generateSchedule() {
     var timeSlotHTML = "";
     
@@ -69,6 +76,14 @@ function generateSchedule() {
     document.getElementById("timeSlot").innerHTML = timeSlotHTML;
 }
 
+/**
+ * This function will generate the timeblock for each hour
+ * taking in the hour, tense, and AM or PM
+ * @param {*} timeHour 
+ * @param {*} timeView 
+ * @param {*} meridiem 
+ * @returns 
+ */
 function getTimeBlock(timeHour, timeView, meridiem) {
     var hourSlot = "hour-" + timeHour;
     var getTense = checkTimeTense(timeHour);
@@ -86,6 +101,12 @@ function getTimeBlock(timeHour, timeView, meridiem) {
     return(divHTML);
 }
 
+/**
+ * This will take the the current hour and compare if its greater, less, or equal
+ * then make the decision of past, present or future
+ * @param {int hour value} timeHour 
+ * @returns 
+ */
 function checkTimeTense(timeHour) {
     var currentTime = dayjs().hour();
     var timeTense = "";
@@ -101,6 +122,12 @@ function checkTimeTense(timeHour) {
     return(timeTense);
 }
 
+/**
+ * This function will take any value greater than 12 and convert it from 24hr time to 12hour time
+ * if noon use 12
+ * @param {hour >= 12} timeValue 
+ * @returns 
+ */
 function convert12HourTime(timeValue) {
     var timeHour = 0;
     
@@ -113,6 +140,10 @@ function convert12HourTime(timeValue) {
     return(timeHour);
 }
 
+/**
+ * Adds the eventlisteners to the buttons for each div time slot and button
+ * links the button to the saveUserContents button to handle the process
+ */
 function buttonListeners() {
     var buttonPrefix = "btn-";
     var buttonId = "";
@@ -126,7 +157,13 @@ function buttonListeners() {
     }
 }
 
-function saveUserContents(captureParent, caputreChild) {
+/**
+ * This function will get the parent id of the div and get the value of the contents
+ * and saves the value into local storage
+ * @param {hour-X} captureParent 
+ * @param {*} captureChild // not in use
+ */
+function saveUserContents(captureParent, captureChild) {
     var userContents;
 
     userContents = document.getElementById(captureParent).firstElementChild.nextElementSibling.value;
@@ -135,10 +172,21 @@ function saveUserContents(captureParent, caputreChild) {
     saveLocalStorage(captureParent, userContents);
 }
 
+/**
+ * This function will saved the contents typed into the textarea
+ * using hour-X as the key and the contents as the value
+ * @param {hour-X} hourSlot 
+ * @param {value of textarea} userContents 
+ */
 function saveLocalStorage(hourSlot, userContents) {
     localStorage.setItem(hourSlot, userContents);
 }
 
+/**
+ * When the page is loaded or refreshed
+ * it will refresh all saved content values into the corresponding time slot box with its value
+ * using a fixed loop based on time
+ */
 function refreshSchedule() {
     console.log("LOADING SAVED NOTES");
     var hourPrefix = "hour-";
@@ -150,6 +198,12 @@ function refreshSchedule() {
     }
 }
 
+/**
+ * This function will check local storage use the unique key of the timeslot box id
+ * search for it in local storage and if not null return the saved value
+ * @param {hour-X} hourSlot 
+ * @returns savedUsercontents
+ */
 function loadLocalStorage(hourSlot) {
     var userContents;
     
@@ -161,12 +215,24 @@ function loadLocalStorage(hourSlot) {
     return(userContents);
 }
 
+/**
+ * set todays date in the html <p> of currentday
+ * calls the function getToday() to do the conversion
+ */
 function setToday() {
     var currentDate = getToday();
 
     document.getElementById("currentDay").innerHTML = currentDate;
 }
 
+/**
+ * This functions uses dayjs() to get the
+ * day of the week
+ * current month of the year
+ * date of the month - will pass this day to convertpostfix to get the ending
+ *  
+ * @returns currentDate
+ */
 function getToday() {
     var currentDate = "";
     var currentDay = dayjs().day();
@@ -181,6 +247,13 @@ function getToday() {
     return(currentDate);
 }
 
+/**
+ * This functions takes in the numeric value of the day and converts the postfix
+ * returns either st, nd, rd, or th
+ * 
+ * @param {dayjs().day()} currentDay 
+ * @returns postfix
+ */
 function convertPostfix(currentDay) {
     var postfix = "";
 
