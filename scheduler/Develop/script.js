@@ -1,8 +1,8 @@
 const anteMeridiem = "AM";
 const postMeridiem = "PM";
 const noonTime = 12;
-const startTime = 1;
-const scheduleTime = 24;
+const startTime = 9;
+const scheduleTime = 8;
 const dayOfTheWeek = [
     "Sunday", "Monday", "Tuesday", "Wednesday",
     "Thursday", "Friday", "Saturday"
@@ -54,8 +54,7 @@ function generateSchedule() {
     var timeSlotHTML = "";
     
     console.log("generate a days work of time slots");
-    for (var timeHour = startTime; timeHour < (startTime + scheduleTime); timeHour++) {
-    // for (var timeHour = 9; timeHour <= (startTime + 8); timeHour++) {
+    for (var timeHour = startTime; timeHour <= (startTime + scheduleTime); timeHour++) {
         if (timeHour < noonTime) {
             // console.log(timeHour + anteMeridiem);
             timeSlotHTML += getTimeBlock(timeHour,timeHour, anteMeridiem);
@@ -118,7 +117,7 @@ function buttonListeners() {
     var buttonPrefix = "btn-";
     var buttonId = "";
 
-    for (var timeHour = startTime; timeHour < (startTime + scheduleTime); timeHour++) {
+    for (var timeHour = startTime; timeHour <= (startTime + scheduleTime); timeHour++) {
         buttonId = buttonPrefix + timeHour
         // console.log("ADDING EVENT LISTENERS" + timeHour + "|" + buttonId);
         document.getElementById(buttonId).addEventListener("click", function(){
@@ -145,7 +144,7 @@ function refreshSchedule() {
     var hourPrefix = "hour-";
     var savedUserContents;
 
-    for (var timeHour = startTime; timeHour < (startTime + scheduleTime); timeHour++) {
+    for (var timeHour = startTime; timeHour <= (startTime + scheduleTime); timeHour++) {
         savedUserContents = loadLocalStorage(hourPrefix + timeHour);
         document.getElementById(hourPrefix + timeHour).firstElementChild.nextElementSibling.value = savedUserContents;
     }
