@@ -3,6 +3,15 @@ const postMeridiem = "PM";
 const noonTime = 12;
 const startTime = 1;
 const scheduleTime = 24;
+const dayOfTheWeek = [
+    "Sunday", "Monday", "Tuesday", "Wednesday",
+    "Thursday", "Friday", "Saturday"
+];
+const monthOfTheYear = [
+    "January", "February", "March", "April",
+    "May", "June", "July", "August",
+    "September", "October", "November", "December"
+];
 
 // Wrap all code that interacts with the DOM in a call to jQuery to ensure that
 // the code isn't run until the browser has finished rendering all the elements
@@ -19,7 +28,6 @@ $(function () {
     buttonListeners();
 
 
-
     //
     // TODO: Add code to apply the past, present, or future class to each time
     // block by comparing the id to the current hour. HINTS: How can the id
@@ -27,44 +35,33 @@ $(function () {
     // past, present, and future classes? How can Day.js be used to get the
     // current hour in 24-hour time?
     //
+
+
     // TODO: Add code to get any user input that was saved in localStorage and set
     // the values of the corresponding textarea elements. HINT: How can the id
     // attribute of each time-block be used to do this?
     //
+
+    refreshSchedule();
+
+
     // TODO: Add code to display the current date in the header of the page.
-  
+    setToday();
 });
 
-function buttonListeners() {
-    var buttonPrefix = "btn-";
-    var buttonId = "";
-
-    for (var timeHour = startTime; timeHour < (startTime + scheduleTime); timeHour++) {
-        buttonId = buttonPrefix + timeHour
-        console.log("ADDING EVENT LISTENERS" + timeHour + "|" + buttonId);
-        document.getElementById(buttonId).addEventListener("click", function(){
-            saveUserContents($(this).parent().attr('id'), $(this).attr('id'));
-        });
-    }
-}
-
-function saveUserContents(captureParent, caputreChild) {
-    console.log("SAVE! -> " + captureParent + "|" + caputreChild);
-}
 
 function generateSchedule() {
-    console.log("generate a days work of schedules");
-    
     var timeSlotHTML = "";
-
+    
+    console.log("generate a days work of time slots");
     for (var timeHour = startTime; timeHour < (startTime + scheduleTime); timeHour++) {
     // for (var timeHour = 9; timeHour <= (startTime + 8); timeHour++) {
         if (timeHour < noonTime) {
-            console.log(timeHour + anteMeridiem);
+            // console.log(timeHour + anteMeridiem);
             timeSlotHTML += getTimeBlock(timeHour,timeHour, anteMeridiem);
             timeSlotHTML += "\n";
         } else if (timeHour >= noonTime) {
-            console.log(timeHour + postMeridiem + " | " + convert12HourTime(timeHour) + postMeridiem);
+            // console.log(timeHour + postMeridiem + " | " + convert12HourTime(timeHour) + postMeridiem);
             timeSlotHTML += getTimeBlock(timeHour, convert12HourTime(timeHour), postMeridiem);
             timeSlotHTML += "\n";
         }
@@ -115,4 +112,96 @@ function convert12HourTime(timeValue) {
     }
 
     return(timeHour);
+}
+
+function buttonListeners() {
+    var buttonPrefix = "btn-";
+    var buttonId = "";
+
+    for (var timeHour = startTime; timeHour < (startTime + scheduleTime); timeHour++) {
+        buttonId = buttonPrefix + timeHour
+        // console.log("ADDING EVENT LISTENERS" + timeHour + "|" + buttonId);
+        document.getElementById(buttonId).addEventListener("click", function(){
+            saveUserContents($(this).parent().attr('id'), $(this).attr('id'));
+        });
+    }
+}
+
+function saveUserContents(captureParent, caputreChild) {
+    var userContents;
+
+    userContents = document.getElementById(captureParent).firstElementChild.nextElementSibling.value;
+    // console.log(userContents);
+    console.log("SAVE! -> " + captureParent + " | " + userContents);
+    saveLocalStorage(captureParent, userContents);
+}
+
+function saveLocalStorage(hourSlot, userContents) {
+    localStorage.setItem(hourSlot, userContents);
+}
+
+function refreshSchedule() {
+    console.log("LOADING SAVED NOTES");
+    var hourPrefix = "hour-";
+    var savedUserContents;
+
+    for (var timeHour = startTime; timeHour < (startTime + scheduleTime); timeHour++) {
+        savedUserContents = loadLocalStorage(hourPrefix + timeHour);
+        document.getElementById(hourPrefix + timeHour).firstElementChild.nextElementSibling.value = savedUserContents;
+    }
+}
+
+function loadLocalStorage(hourSlot) {
+    var userContents;
+    
+    userContents = localStorage.getItem(hourSlot);
+    if (userContents == null) {
+        userContents = "";
+    }
+
+    return(userContents);
+}
+
+function setToday() {
+    var currentDate = getToday();
+
+    document.getElementById("currentDay").innerHTML = currentDate;
+}
+
+function getToday() {
+    var currentDate = "";
+    var currentDay = dayjs().day();
+    var currentMonth = dayjs().month();
+    var dayOfMonth = dayjs().date();
+
+    currentDate += dayOfTheWeek[currentDay] + " ";
+    currentDate += monthOfTheYear[currentMonth] + " ";
+    currentDate += dayOfMonth + convertPostfix(dayOfMonth);
+    console.log(currentDate);
+
+    return(currentDate);
+}
+
+function convertPostfix(currentDay) {
+    var postfix = "";
+
+    switch(currentDay) {
+        case 1:
+        case 21:
+        case 31:
+            postfix = "st";
+            break;
+        case 2:
+        case 22:
+            postfix = "nd";
+            break;
+        case 3:
+        case 23:
+            postfix = "rd";
+            break;
+        default:
+            postfix = "th";
+    }
+
+    return(postfix);
 }
