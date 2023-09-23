@@ -8,14 +8,15 @@ const scheduleTime = 24;
 // the code isn't run until the browser has finished rendering all the elements
 // in the html.
 $(function () {
+    generateSchedule();
     // TODO: Add a listener for click events on the save button. This code should
     // use the id in the containing time-block as a key to save the user input in
     // local storage. HINT: What does `this` reference in the click listener
     // function? How can DOM traversal be used to get the "hour-x" id of the
     // time-block containing the button that was clicked? How might the id be
     // useful when saving the description in local storage?
-    generateSchedule();
-
+    
+    buttonListeners();
 
 
 
@@ -31,16 +32,25 @@ $(function () {
     // attribute of each time-block be used to do this?
     //
     // TODO: Add code to display the current date in the header of the page.
-
-    // test
-    // document.getElementById("btn").addEventListener("click", func);
-    var now = dayjs();
-    console.log(now);
-    now = dayjs().hour();
-    console.log(now);
-    // document.getElementById("timeSlot").innerHTML = getTimeBlock(1, "AM");
-    
+  
 });
+
+function buttonListeners() {
+    var buttonPrefix = "btn-";
+    var buttonId = "";
+
+    for (var timeHour = startTime; timeHour < (startTime + scheduleTime); timeHour++) {
+        buttonId = buttonPrefix + timeHour
+        console.log("ADDING EVENT LISTENERS" + timeHour + "|" + buttonId);
+        document.getElementById(buttonId).addEventListener("click", function(){
+            saveUserContents($(this).parent().attr('id'), $(this).attr('id'));
+        });
+    }
+}
+
+function saveUserContents(captureParent, caputreChild) {
+    console.log("SAVE! -> " + captureParent + "|" + caputreChild);
+}
 
 function generateSchedule() {
     console.log("generate a days work of schedules");
