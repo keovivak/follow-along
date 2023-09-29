@@ -1,0 +1,7 @@
+FROM nginx:stable-alpine-slim
+
+RUN apk update
+RUN apk upgrade
+
+# Expose 80
+EXPOSE 80
