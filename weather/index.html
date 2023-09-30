@@ -1,76 +1,59 @@
 <!DOCTYPE html>
 <html>
 <head>
-<style>
-    h1 {
-        text-align: center;
-    }
-    p {
-        text-align: center;
-    }
-    div {
-        text-align: center;
-    }
-    table, th, td {
-        border:1px solid black;
-        text-align: left;
-        height: 50px;
-    }
-    th {
-        font-size: x-large;
-    }
-</style>
 <title>Weather Dashboard App</title>
 </head>
 <body>
 
 <h1>Weather Dashboard</h1>
-<table style="width:100%">
+<div>
+<table style="width:100%; height:80%;">
 <tr>
     <th style="width:20%">Search for a city:</th>
-    <th style="width:40%;">Current city</th>
+    <th colspan="5">Current city</th>
 </tr>
-<tr>
+<tr id="tableSearchBox">
     <td>Search box</td>
-    <td>current city data</td>
+    <td colspan="5" rowspan="2">current city data</td>
 </tr>
-<tr>
+<tr id="tableSearchButton">
     <td>Search</td>
-    <th>5 Day forecast</th>
 </tr>
 <tr>
     <th><hr></th>
-    <td>1</td>
-    <td>2</td>
-    <td>3</td>
-    <td>4</td>
-    <td>5</td>
+    <th colspan="5">5 Day forecast:</th>
 </tr>
-<tr>
+<tr id="tableBlock">
     <td>Atlanta</td>
+    <td rowspan="5"><div id="day1">1</div></td>
+    <td rowspan="5"><div id="day2">2</div></td>
+    <td rowspan="5"><div id="day3">3</div></td>
+    <td rowspan="5"><div id="day4">4</div></td>
+    <td rowspan="5"><div id="day5">5</div></td>
 </tr>
-<tr>
+<tr id="tableBlock">
     <td>Denver</td>
 </tr>
-<tr>
+<tr id="tableBlock">
     <td>Seattle</td>
 </tr>
-<tr>
+<tr id="tableBlock">
     <td>San Francisco</td>
 </tr>
-<tr>
+<tr id="tableBlock">
     <td>Orlando</td>
 </tr>
-<tr>
+<tr id="tableBlock">
     <td>New York</td>
 </tr>
-<tr>
+<tr id="tableBlock">
     <td>Chicago</td>
 </tr>
-<tr>
+<tr id="tableBlock">
     <td>Austin</td>
 </tr>
 </table>
+</div>
 
 <script src="script.js"></script>
 </body>
